@@ -1,0 +1,45 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        type: choice
+        description: How to bump the version
+        required: true
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.4
+      - name: Configure git
+        run: |
+          git config --global user.name 'Release bot'
+          git config --global user.email 'kevinkelduff@gmail.com'
+          git push
+      - name: bump release version and tag
+        run: |
+          poetry version ${{ github.event.inputs.bump }}
+          export NEW_VERSION=$(poetry version -s)
+          git commit -am "Bumping to version $NEW_VERSION"
+          git tag -a $NEW_VERSION -m $NEW_VERSION
+      - name: prepatch to the next version
+        run: |
+          poetry version prepatch
+          export NEW_VERSION=$(poetry version -s)
+          git commit -am "Prepatching to $NEW_VERSION"
+      - name: Push results
+        run: |
+          git push
+          git push --tags
