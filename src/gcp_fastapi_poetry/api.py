@@ -20,4 +20,5 @@ app.add_middleware(
 
 @app.get("/example/{exampleValue}", response_model=ExampleResponse)
 async def say_hello(exampleValue: str):
+    logger.info(f"GET /example/{exampleValue}")
     return ExampleResponse(response_value=exampleValue.upper())
