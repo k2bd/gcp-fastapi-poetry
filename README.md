@@ -2,6 +2,8 @@
 
 This template will get you ready to deploy a FastAPI app in Google Cloud with automatic API versioning by major release version and automatic custom domain mapping.
 
+Major tags maintain separate API services in Cloud Run. For example, if my custom domain is `api.k2bd.dev`, running the release GitHub action to create version `v2.3.4` will update the `v2` tag and automatically (re)-deploy to the `v2.api.k2bd.dev` service with the released code. The `v1` service is unaffected, and there's no need to keep `v1`-compatible code around in the default branch of your repo after bumping to `v2`. New `v1` versions can be pushed separately to update that version using whatever workflow you want that produces a new `v1.*.*` semver tag, for example for bugfixes that affect the previous version. This keeps the maintenance cost of the code low while also ensuring old versions of the API are live and available to clients until they're migrated to the newer versions.
+
 ## Getting started from the template
 1. Rename the `src/gcp_fastapi_poetry` package.
 1. Globally replace (*case-sensitive*) instances of `gcp-fastapi-poetry`, `gcp_fastapi_poetry`, and `GCP_FASTAPI_POETRY` with your project and package name (including later in this list).
