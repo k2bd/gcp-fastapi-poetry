@@ -16,6 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+            # NOTE @v2 uses the token as an auth http header. Set it to
+            # a Personal Access Token instead of secrets.GITHUB_TOKEN
+            # so that tag pushes trigger repo push events.
+            # See https://github.community/t/action-does-not-trigger-another-on-push-tag-action/17148/8
+            token: ${{ secrets.DEPLOY_TOKEN }}
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
@@ -26,20 +32,21 @@ jobs:
       - name: Configure git
         run: |
           git config --global user.name 'Release bot'
-          git config --global user.email 'kevinkelduff@gmail.com'
+          git config --global user.email 'nobody@github.com'
           git push
       - name: bump release version and tag
         run: |
           poetry version ${{ github.event.inputs.bump }}
-          export NEW_VERSION=$(poetry version -s)
+          export NEW_VERSION=v$(poetry version -s)
           git commit -am "Bumping to version $NEW_VERSION"
           git tag -a $NEW_VERSION -m $NEW_VERSION
       - name: prepatch to the next version
         run: |
           poetry version prepatch
-          export NEW_VERSION=$(poetry version -s)
+          export NEW_VERSION=v$(poetry version -s)
           git commit -am "Prepatching to $NEW_VERSION"
       - name: Push results
+        # See https://www.wearecogworks.com/blog/quick-guide-to-running-sub-workflows-with-github-actions/
         run: |
-          git push
-          git push --tags
+          git push "https://$GITHUB_ACTOR:${{ secrets.DEPLOY_TOKEN }}@github.com/$GITHUB_REPOSITORY.git"
+          git push "https://$GITHUB_ACTOR:${{ secrets.DEPLOY_TOKEN }}@github.com/$GITHUB_REPOSITORY.git" --tags

@@ -2,7 +2,7 @@
 name = "gcp-fastapi-poetry"
 version = "0.1.0"
 description = ""
-authors = ["Kevin Duff <kevinkelduff@gmail.com>"]
+authors = []
 
 [tool.poetry.dependencies]
 python = "^3.9"
