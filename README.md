@@ -27,6 +27,7 @@ Note: if Poetry is managing a virtual environment for you, you may need to use `
 - `poe autoformat` - Autoformat code
 - `poe lint` - Linting
 - `poe test` - Run Tests
+- `poe local-server` - Run your API locally
 
 ### Releasing
 

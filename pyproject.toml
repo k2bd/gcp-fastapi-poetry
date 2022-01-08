@@ -51,7 +51,7 @@ sequence = [
 
 [tool.poe.tasks.local-server]
 sequence = [
-    {shell = "source .dev.env && uvicorn gcp_fastapi_poetry.api:app --reload --port 8011"},
+    {shell = "uvicorn gcp_fastapi_poetry.api:app --reload --port 8011"},
 ]
 
 [build-system]
