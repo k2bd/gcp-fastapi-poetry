@@ -2,8 +2,12 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from google.cloud.logging import Client as LoggingClient
 
 from gcp_fastapi_poetry.types import ExampleResponse
+
+logging_client = LoggingClient()
+logging_client.setup_logging
 
 logger = logging.getLogger(__name__)
 
