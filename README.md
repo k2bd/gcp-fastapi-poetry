@@ -13,7 +13,7 @@ Major tags maintain separate API services in Cloud Run. For example, if my custo
 1. Configure a Cloud Build trigger in your GCP project to deploy from `cloudbuild.yaml` on a new tag that matches the regex `^(v(\d+))$`, with a substituion variable `_GCP_FASTAPI_POETRY_API_DOMAIN` pointing to the (sub)-domain you want to host the API on. Make sure the cloudbuild service account has the required permissions (Cloud Build settings --> enable Cloud Run, Service Accounts, and Cloud Build) and is [registered as an owner of your custom domain](https://stackoverflow.com/a/70510793) if required.
 1. Update `LICENSE.md` as appropriate, making sure to retain the original copyright and permissions notices in your distribution according to the MIT license that this template is distributed under.
 1. Create and test your API. Your app under `gcp_fastapi_poetry.api:app` will be hosted on CloudRun when it's deployed.
-1. When you're ready to release the first version, run the release GitHub action with the "major" option to deploy `v1` of your API!
+1. When you're ready to release the first version, run the release GitHub action with the "major" option to deploy `v1` of your API! (or minor/patch to deploy `v0`)
 1. Remove this section from `README.md`.
 1. Happy hacking!
 
@@ -33,6 +33,8 @@ Note: if Poetry is managing a virtual environment for you, you may need to use `
 - `poe lint` - Linting
 - `poe test` - Run Tests
 - `poe local-server` - Run your API locally
+
+While the local server is running, you can see API docs at `http://localhost:8011/docs` or `http://localhost:8011/redoc`, and can get the OpenAPI spec at `http://localhost:8011/openapi.json`.
 
 ### Deployment
 
