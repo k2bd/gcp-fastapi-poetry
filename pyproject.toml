@@ -19,7 +19,7 @@ flake8 = "^4.0.1"
 mypy = "^0.931"
 pytest-cov = "^3.0.0"
 poethepoet = "^0.11.0"
-requests = "^2.27.1"
+requests = "^2.31.0"
 
 [tool.isort]
 profile = "black"
